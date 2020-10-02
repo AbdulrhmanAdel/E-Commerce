@@ -4,6 +4,7 @@
     "codelyzer"
   ],
   "rules": {
+    "prefer-const": false,
     "align": {
       "options": [
         "parameters",
@@ -83,7 +84,7 @@
       }
     },
     "typedef": [
-      true,
+      false,
       "call-signature"
     ],
     "typedef-whitespace": {
@@ -147,6 +148,7 @@
       "element",
       "app",
       "kebab-case"
-    ]
-  }
+      ]
+    },
+    "no-trailing-whitespace": true
 }
