@@ -1,3 +1,4 @@
+import { HomeModule } from './home/home.module';
 import { SharedModule } from './shared/shared.module';
 import { ShopModule } from './shop/shop.module';
 import { CoreModule } from './core/core.module';
@@ -19,8 +20,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     HttpClientModule,
     CoreModule,
-    ShopModule,
-    SharedModule
+    SharedModule,
+    HomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]
