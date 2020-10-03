@@ -7,12 +7,13 @@ import { IPagination } from '../shared/models/pagination';
 import { IProductBrand } from '../shared/models/productBrand';
 import { IProductType } from '../shared/models/productType';
 import { IProduct } from '../shared/models/product';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShopService {
-  baseUrl = 'https://localhost:5001/api/';
+  baseUrl =  environment.baseUrl;
   constructor(private http: HttpClient) { }
 
   public getProduct(id: number): Observable<IProduct> {
