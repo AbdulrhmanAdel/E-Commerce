@@ -20,7 +20,7 @@ namespace API.Extensions
         {
             var email = user.Claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
 
-             return await userManager.Users.SingleOrDefaultAsync(x => x.Email == email);
+            return await userManager.Users.SingleOrDefaultAsync(x => x.Email == email);
         }
     }
 }
