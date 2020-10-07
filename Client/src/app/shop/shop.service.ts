@@ -13,7 +13,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class ShopService {
-  baseUrl =  environment.baseUrl;
+  baseUrl =  environment.apiUrl;
   constructor(private http: HttpClient) { }
 
   public getProduct(id: number): Observable<IProduct> {

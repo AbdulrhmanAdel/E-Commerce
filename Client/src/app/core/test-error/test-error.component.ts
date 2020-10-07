@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./test-error.component.scss']
 })
 export class TestErrorComponent implements OnInit {
-  baseUrl = environment.baseUrl;
+  baseUrl = environment.apiUrl;
   validationErrors: any;
 
   constructor(private http: HttpClient) { }
