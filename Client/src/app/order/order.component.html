@@ -1,0 +1,46 @@
+<div class="container">
+    <h3  *ngIf="!orders">You don't any orders</h3>
+    <div class="table-responsive" *ngIf="orders">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th class="border-0 " scope="col">
+                        <div class="p-2 px-3 text-uppercase" >
+                            Order
+                        </div>
+                    </th>
+                    <th class="border-0" scope="col">
+                        <div class="py-2 text-uppercase">
+                            Date
+                        </div>
+                    </th>
+                    <th class="border-0" scope="col">
+                        <div class="py-2 text-uppercase">
+                            Total
+                        </div>
+                    </th>
+                    <th class="border-0" scope="col">
+                        <div class="py-2 text-uppercase">
+                            Status
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let order of orders" routerLink="/orders/{{order.id}}">
+                    <th scope="row">
+                        # {{order.id}}
+                    </th>
+                    <td class="align-middle">
+                        {{order.orderDate | date}}
+                    </td>
+                    <td class="align-middle">
+                        {{order.total}}
+                    </td>
+                    <td class="align-middle">
+                        {{order.status}}
+                    </td>
+                </tr>   
+            </tbody>
+        </table>
+</div>

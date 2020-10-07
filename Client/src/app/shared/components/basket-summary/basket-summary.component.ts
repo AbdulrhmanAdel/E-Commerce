@@ -10,16 +10,16 @@ import { IBasket } from '../../models/basket';
   styleUrls: ['./basket-summary.component.scss']
 })
 export class BasketSummaryComponent implements OnInit {
-  basket$: Observable<IBasket>;
+  @Input() items: any[];
   @Input() isBasket = true;
+  @Input() isOrder = false;
   @Output() decrement = new EventEmitter<IBasketItem>();
   @Output() increment = new EventEmitter<IBasketItem>();
   @Output() remove = new EventEmitter<IBasketItem>();
 
-  constructor(private basketService: BasketService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.basket$ = this.basketService.basket$;
   }
 
   removeBasketItem(item: IBasketItem) {

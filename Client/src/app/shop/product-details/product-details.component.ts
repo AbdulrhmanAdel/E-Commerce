@@ -8,30 +8,36 @@ import { BreadcrumbService } from 'xng-breadcrumb';
 @Component({
   selector: 'app-product-details',
   templateUrl: './product-details.component.html',
-  styleUrls: ['./product-details.component.scss']
+  styleUrls: ['./product-details.component.scss'],
 })
 export class ProductDetailsComponent implements OnInit {
   product: IProduct;
   quantiy = 1;
-  constructor(private shopService: ShopService,
-              private route: ActivatedRoute,
-              private crumbService: BreadcrumbService,
-              private basketService: BasketService) {
-                this.crumbService.set('@productDetails', ' ');
-              }
+  constructor(
+    private shopService: ShopService,
+    private route: ActivatedRoute,
+    private crumbService: BreadcrumbService,
+    private basketService: BasketService
+  ) {
+    this.crumbService.set('@productDetails', ' ');
+  }
 
   ngOnInit(): void {
     this.loadProduct();
-    console.log(this.basketService.getCurrentBasketValue());
   }
 
   loadProduct() {
-    this.shopService.getProduct(+this.route.snapshot.paramMap.get('id')).subscribe(product => {
-      this.product = product;
-      this.crumbService.set('@productDetails', product.name);
-    }, err => {
-      console.log(err);
-    });
+    this.shopService
+      .getProduct(+this.route.snapshot.paramMap.get('id'))
+      .subscribe(
+        (product) => {
+          this.product = product;
+          this.crumbService.set('@productDetails', product.name);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
   }
 
   addItemToBasket() {

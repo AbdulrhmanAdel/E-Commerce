@@ -1,5 +1,6 @@
 <div class="container">
     <app-basket-summary
+        [items]="(basket$ | async)?.items"
         [isBasket]="false"
     ></app-basket-summary>
 </div>

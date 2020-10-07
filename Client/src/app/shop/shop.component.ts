@@ -8,20 +8,20 @@ import { IProductType } from '../shared/models/productType';
 @Component({
   selector: 'app-shop',
   templateUrl: './shop.component.html',
-  styleUrls: ['./shop.component.scss']
+  styleUrls: ['./shop.component.scss'],
 })
 export class ShopComponent implements OnInit {
-  @ViewChild('search', {static: false}) searchTerm;
+  @ViewChild('search', { static: false }) searchTerm;
   products: IProduct[];
   brands: IProductBrand[];
   types: IProductType[];
   shopParams = new ShopParams();
   sortOptions = [
-    {name: 'Alphabetical', value: 'name'},
-    {name: 'Price: Low to High', value: 'priceAsc'},
-    {name: 'Price: High to Low', value: 'priceDesc'}
+    { name: 'Alphabetical', value: 'name' },
+    { name: 'Price: Low to High', value: 'priceAsc' },
+    { name: 'Price: High to Low', value: 'priceDesc' },
   ];
-  constructor(private shopService: ShopService) { }
+  constructor(private shopService: ShopService) {}
 
   ngOnInit(): void {
     this.getProducts();
@@ -30,30 +30,39 @@ export class ShopComponent implements OnInit {
   }
 
   getProducts() {
-    this.shopService.getProducts(this.shopParams).subscribe(res => {
-      this.products = res.data;
-      this.shopParams.pageNumber = res.pageIndex;
-      this.shopParams.pageSize = res.pageSize;
-      this.shopParams.totalCount = res.count;
-    }, error => {
-      console.log(error);
-    });
+    this.shopService.getProducts(this.shopParams).subscribe(
+      (res) => {
+        this.products = res.data;
+        this.shopParams.pageNumber = res.pageIndex;
+        this.shopParams.pageSize = res.pageSize;
+        this.shopParams.totalCount = res.count;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   getBrands() {
-    this.shopService.getBrands().subscribe(res => {
-      this.brands = [{id: 0, name: 'All'}, ...res];
-    }, error => {
-      console.log(error);
-    });
+    this.shopService.getBrands().subscribe(
+      (res) => {
+        this.brands = [{ id: 0, name: 'All' }, ...res];
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   getTypes() {
-    this.shopService.getTypes().subscribe(res => {
-      this.types = [{id: 0, name: 'All'}, ...res];
-    }, error => {
-      console.log(error);
-    });
+    this.shopService.getTypes().subscribe(
+      (res) => {
+        this.types = [{ id: 0, name: 'All' }, ...res];
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   onBrandSelect(brandId: number) {
