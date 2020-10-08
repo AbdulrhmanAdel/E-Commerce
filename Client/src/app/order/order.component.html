@@ -1,8 +1,8 @@
-<div class="container">
+<div class="container mt-3">
     <h3  *ngIf="!orders">You don't any orders</h3>
     <div class="table-responsive" *ngIf="orders">
         <table class="table">
-            <thead>
+            <thead class="bg-light">
                 <tr>
                     <th class="border-0 " scope="col">
                         <div class="p-2 px-3 text-uppercase" >
@@ -32,10 +32,10 @@
                         # {{order.id}}
                     </th>
                     <td class="align-middle">
-                        {{order.orderDate | date}}
+                        {{order.orderDate | date:'medium'}}
                     </td>
                     <td class="align-middle">
-                        {{order.total}}
+                        {{order.total | currency}}
                     </td>
                     <td class="align-middle">
                         {{order.status}}

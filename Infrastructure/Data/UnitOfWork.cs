@@ -5,7 +5,8 @@ using Core.Entities;
 using Core.Interfaces;
 
 namespace Infrastructure.Data {
-    public class UnitOfWork : IUnitOfWork {
+    public class UnitOfWork : IUnitOfWork 
+    {
         private Hashtable _repositories;
         private readonly StoreContext _context;
         public UnitOfWork (StoreContext context) 
@@ -19,7 +20,7 @@ namespace Infrastructure.Data {
 
         public void Dispose () 
         {
-            throw new System.NotImplementedException ();
+    
         }
 
         public IGenericRepository<TEntity> Repository<TEntity> () where TEntity : BaseEntity 

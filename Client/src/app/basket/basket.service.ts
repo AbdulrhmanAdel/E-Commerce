@@ -20,11 +20,25 @@ export class BasketService {
 
   constructor(private http: HttpClient) { }
 
-  setShippingPrice(deliveryMethod: IDeliveryMethod) {
-    this.shipping = deliveryMethod.price;
-    this.calculateTotals();
+  createPaymentIntent() {
+    return this.http.post<IBasket>(this.baseUrl + 'payments/' + this.getCurrentBasketValue().id, {})
+      .pipe(
+        map((basket: IBasket) => {
+          this.basketSource.next(basket);
+        })
+      );
   }
 
+  setShippingPrice(deliveryMethod: IDeliveryMethod) {
+    this.shipping = deliveryMethod.price;
+    const basket = this.getCurrentBasketValue();
+    basket.deliveryMethodId = deliveryMethod.id;
+    basket.shippingPrice = deliveryMethod.price;
+    this.calculateTotals();
+    this.setBasket(basket);
+  }
+
+  // Delete bakset from client browser
   deleteLocalBasket(id: string) {
     this.basketSource.next(null);
     this.basketTotalSource.next(null);
@@ -36,6 +50,7 @@ export class BasketService {
     .pipe(
       map((basket: IBasket) => {
         this.basketSource.next(basket);
+        this.shipping = basket.shippingPrice;
         this.calculateTotals();
       })
     );
@@ -97,6 +112,7 @@ export class BasketService {
     }, error => console.log(error));
   }
 
+  // Calculate total price and subtotal and shipping price
   private calculateTotals() {
     const basket = this.getCurrentBasketValue();
     const shipping = this.shipping;
@@ -104,6 +120,8 @@ export class BasketService {
     const total = shipping + subtotal;
     this.basketTotalSource.next({shipping, subtotal, total});
   }
+
+  // Add item to basket or update its quantity if it already there
   private addOrUpdateItem(items: IBasketItem[], itemToAddd: IBasketItem, quantity: number): IBasketItem[] {
     const index = items.findIndex(i => i.id === itemToAddd.id);
     if (index === -1) {
@@ -116,12 +134,14 @@ export class BasketService {
     return items;
   }
 
+  // Create basket and add it to localstorage
   private createBasket(): IBasket {
     const basket = new Basket();
     localStorage.setItem('basket_id', basket.id);
     return basket;
   }
 
+  // Convert product to basketItem
   private mapProductITemToBasket(Item: IProduct, quantity: number): IBasketItem {
     return {
       id: Item.id,

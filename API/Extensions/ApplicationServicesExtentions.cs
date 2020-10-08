@@ -18,15 +18,16 @@ namespace API.Extensions
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IOrderService, OrderService>();
-            services.Configure<ApiBehaviorOptions>(opt => 
+            services.AddScoped<IPaymentService, PaymentService>();
+            services.Configure<ApiBehaviorOptions>(opt =>
             {
-                opt.InvalidModelStateResponseFactory = actionContext => 
+                opt.InvalidModelStateResponseFactory = actionContext =>
                 {
                     var errors = actionContext.ModelState
                         .Where(e => e.Value.Errors.Count > 0)
                         .SelectMany(x => x.Value.Errors)
                         .Select(x => x.ErrorMessage).ToArray();
-                    
+
                     var errorResponse = new ApiValidationErrorResponse
                     {
                         Errors = errors

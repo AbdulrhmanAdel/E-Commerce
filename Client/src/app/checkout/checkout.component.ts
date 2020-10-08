@@ -22,6 +22,7 @@ export class CheckoutComponent implements OnInit {
     if (localStorage.getItem('basket_id')) {
       this.UserBasket = true;
     }
+    this.getDeliveryMethodValue();
   }
 
   createCheckoutForm() {
@@ -41,6 +42,13 @@ export class CheckoutComponent implements OnInit {
         nameOnCard: [null, Validators.required]
       })
     });
+  }
+
+  getDeliveryMethodValue() {
+    const basket = this.basketService.getCurrentBasketValue();
+    if (basket.deliveryMethodId != null) {
+      this.checkoutForm.get('deliveryForm').get('deliveryMethod').patchValue(basket.deliveryMethodId.toString());
+    }
   }
 
 }
