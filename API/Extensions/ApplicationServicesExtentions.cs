@@ -18,6 +18,7 @@ namespace API.Extensions
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddSingleton<IResponseCacheService, ResponseCachaService>();
             services.AddScoped<IPaymentService, PaymentService>();
             services.Configure<ApiBehaviorOptions>(opt =>
             {

@@ -13,6 +13,7 @@ using AutoMapper;
 using API.Errors;
 using Microsoft.AspNetCore.Http;
 using API.Extensions;
+using API.Helpers;
 
 namespace API.Controllers
 {
@@ -35,8 +36,9 @@ namespace API.Controllers
             _brandRepo = brandRepo;
         }
 
+        [Cached(600)]
         [HttpGet]
-        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecParams productParams)
+        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery] ProductSpecParams productParams)
         {
             var spec = new ProductsWithBrandsAndTypesSpecification(productParams);
 
@@ -47,11 +49,12 @@ namespace API.Controllers
             var products = await _productRepo.ListAsync(spec);
 
             var productsToReturn = _mapper.Map<List<ProductToReturnDto>>(products);
-            
-            return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex, 
+
+            return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex,
                 productParams.PageSize, totalItems, productsToReturn));
         }
 
+        [Cached(600)]
         [HttpGet("brands")]
         public async Task<ActionResult<List<ProductBrand>>> GetProductBrands()
         {
@@ -59,6 +62,7 @@ namespace API.Controllers
             return Ok(productBrands);
         }
 
+        [Cached(600)]
         [HttpGet("types")]
         public async Task<ActionResult<List<ProductType>>> GetProductTypes()
         {
@@ -66,6 +70,7 @@ namespace API.Controllers
             return Ok(productTypes);
         }
 
+        [Cached(600)]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -76,9 +81,9 @@ namespace API.Controllers
             var product = await _productRepo.GetEntityWithSpec(spec);
             if (product == null)
                 return NotFound(new ApiResponse(404));
-            
+
             var productToReturn = _mapper.Map<ProductToReturnDto>(product);
-            
+
             return Ok(productToReturn);
         }
     }
